@@ -4,19 +4,22 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
-const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const finalPrice = require("../utils/finalPrice");
 
 const controller = {
 	index: (req, res) => {
 		res.render("index", {
 			products, 
 			productsInSale: products.filter(producto=>producto.category==="in-sale"),
-			productsVisited: products.filter(producto=>producto.category==="visited")})
+			productsVisited: products.filter(producto=>producto.category==="visited"),
+			finalPrice}
+			);
 	},
 	search: (req, res) => {
 		res.render("results", {
-			filtrados: products.filter(producto=>producto.name.toLowerCase().includes(req.query.keywords.toLowerCase())),
-			busqueda: req.query.keywords
+			filtrados: products.filter(producto=>producto.name.toLowerCase().includes(req.query.keywords.toLowerCase().trim())),
+			busqueda: req.query.keywords.trim(),
+			finalPrice
 		})
 	},
 };

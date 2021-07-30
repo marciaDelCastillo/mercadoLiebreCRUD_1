@@ -26,7 +26,7 @@
 							<img src="/images/products/<%=productsVisited[i].image%>" alt="imagen de producto">
 						</figure>
 						<article class="product-box_data">
-							<h2>$<%= (productsVisited[i].price-(productsVisited[i].discount*productsVisited[i].price/100))%></h2>
+							<h2>$<%= finalPrice(productsVisited[i].price, productsVisited[i].discount)%></h2>
 							<%if(productsVisited[i].discount!=0){%>
 							<span><%= productsVisited[i].discount%> % OFF: </span>
 							<% } %>
@@ -56,7 +56,7 @@
 							<img src="/images/products/<%=productsInSale[i].image%>" alt="imagen de producto">
 						</figure>
 						<article class="product-box_data">
-							<h2>$<%= (productsInSale[i].price-(productsInSale[i].discount*productsInSale[i].price/100))%></h2>
+							<h2>$<%= finalPrice(productsInSale[i].price,productsInSale[i].discount)%></h2>
 							<%if(productsInSale[i].discount!=0){%>
 							<span><%= productsInSale[i].discount%> % OFF: </span>
 							<% } %>

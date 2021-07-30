@@ -33,7 +33,7 @@
 							</p>
 							<% } %>
 							<p class="product-detail-price">
-								$<%= (producto.price-(producto.discount*producto.price/100))%>
+								$<%= finalPrice(producto.price,producto.discount)%>
 							</p>
 
 						<ul class="actions-list">

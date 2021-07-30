@@ -25,7 +25,7 @@
 								<img src="/images/products/<%=filtrados[i].image%>" alt="imagen de producto">
 							</figure>
 							<article class="product-box_data">
-								<h2>$<%= (filtrados[i].price-(filtrados[i].discount*filtrados[i].price/100))%></h2>
+								<h2>$<%= finalPrice(filtrados[i].price,filtrados[i].discount)%></h2>
 								<%if(filtrados[i].discount!=0){%>
 								<span><%= filtrados[i].discount%> % OFF: </span>
 								<% } %>
@@ -37,7 +37,9 @@
 				</div>
 			<% } %>
 			<div class="col-12">
+				<%if(filtrados.length==0){%>
 				<h2 class="products-title" style="color: tomato;">No hay productos que coincidan con esa búsqueda</h2>
+				<%}%>
 			</div>
 		</div>
 	</div>

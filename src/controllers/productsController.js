@@ -4,18 +4,23 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
-const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const finalPrice = require("../utils/finalPrice");
 
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		res.render("products",{products})
+		res.render("products",{products, finalPrice})
 	},
 
 	// Detail - Detail from one product
 	detail: (req, res) => {
 		let producto = products.find(producto=>producto.id===+req.params.id);
-		res.render("detail", {producto});
+		if(producto){
+			res.render("detail", {producto, finalPrice});
+		}else{
+			res.redirect("/");
+		} 
+		
 	},
 
 	// Create - Form to create
@@ -42,7 +47,12 @@ const controller = {
 	// Update - Form to edit
 	edit: (req, res) => {
 		let producto = products.find(producto=> producto.id===+req.params.id);
-		res.render("product-edit-form", {producto});
+		if(producto){
+			res.render("product-edit-form", {producto, finalPrice});
+		}else{
+			res.redirect("/");
+		}
+		
 	},
 	// Update - Method to update
 	update: (req, res) => {
@@ -61,14 +71,16 @@ const controller = {
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
-		let index = 0;
+		let index = -1;
 		for(let i=0;i<products.length;i++){
 			if(products[i].id===+req.params.id){
 				index = i;
 			}
 		}
-		products.splice(index,1);
-		fs.writeFileSync(path.join(__dirname,'../data/productsDataBase.json'), JSON.stringify(products, null, 2), "utf-8");
+		if(index>=0){
+			products.splice(index,1);
+			fs.writeFileSync(path.join(__dirname,'../data/productsDataBase.json'), JSON.stringify(products, null, 2), "utf-8");
+		}
 		res.redirect("/products");
 	}
 };
